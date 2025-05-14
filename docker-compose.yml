@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  reverse-jupyter:
+    build: .
+    container_name: reverse-jupyter
+    ports:
+      - "2222:8888"
+    environment:
+      - JUPYTER_TOKEN=123
+    volumes:
+      - ./notebooks:/workspace
