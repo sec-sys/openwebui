@@ -24,14 +24,14 @@ RUN apt-get update && \
         chromium chromium-driver \
         fonts-liberation libfontconfig1 libnss3 libx11-6 \
         git curl wget libffi-dev libssl-dev libz3-dev && \
-    # radare2 + dev-заголовки из backports
+    # radare2 + dev backports
     apt-get -y -t bookworm-backports install radare2 libradare2-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# ── 1.1. r2pm база ───────────────────────────────────────────
+# ── 1.1. r2pm  ───────────────────────────────────────────
 RUN r2pm -U
 
-# ── 1.2. r2dec (ручная сборка – обходит бага r2pm) ──────────
+# ── 1.2. r2dec (bug r2pm) ──────────
 RUN git clone --depth 1 https://github.com/wargio/r2dec-js /opt/r2dec && \
     cd /opt/r2dec && \
     meson setup build && \
@@ -39,25 +39,25 @@ RUN git clone --depth 1 https://github.com/wargio/r2dec-js /opt/r2dec && \
     ninja -C build install && \
     cd / && rm -rf /opt/r2dec
 
-# ── 1.3. Qiling rootfs (полный набор) ────────────────────────
+# ── 1.3. Qiling rootfs (full) ────────────────────────
 RUN git clone --depth 1 https://github.com/qilingframework/rootfs.git /opt/qiling/rootfs
 ENV QILING_ROOTFS=/opt/qiling/rootfs
 
-# ── 2. Python-стек ───────────────────────────────────────────
+# ── 2. Python ───────────────────────────────────────────
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir \
         # Jupyter
         jupyterlab ipykernel notebook \
-        # Reverse-engineering / эмуляция
+        # Reverse-engineering / emu
         angr z3-solver qiling \
         yara-python python-evtx \
         capstone unicorn keystone-engine lief pefile dnfile binwalk \
         r2pipe volatility3 pwntools \
-        # Сетевой анализ
+        # Network
         pyshark scapy \
-        # Data science / визуализация
+        # Data science / visual
         matplotlib pandas seaborn \
-        # Web-scraping / автоматизация
+        # Web-scraping / auto
         beautifulsoup4 selenium
 
 # ── 3. Jupyter Lab ───────────────────────────────────────────
