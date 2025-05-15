@@ -5,11 +5,9 @@ services:
     build: .
     container_name: reverse-jupyter
     ports:
-      - "2222:8888"                 # Jupyter наружу
+      - "2222:8888"
     environment:
       - JUPYTER_TOKEN=123
     volumes:
-      # ноутбуки и скрипты
       - ./notebooks:/workspace
-      # Каталог с YARA-правилами
       - ./yara:/yara
